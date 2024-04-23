@@ -9,9 +9,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "Login Portal tool",
 	Short: "A tool to automatically log in to the Tokyo Tech portal.",
-	Long: `A tool to automatically log in to the Tokyo Tech portal.
-		You first need to set the credentials with the init command. 
-		Then, by executing the login command, the portal site will automatically open and you can log in.`,
+	Long:  `A tool to automatically log in to the Tokyo Tech portal.You first need to set the credentials with the init command. Then, by executing the login command, the portal site will automatically open and you can log in.`,
 }
 
 func Execute() {
