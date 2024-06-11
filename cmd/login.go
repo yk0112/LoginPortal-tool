@@ -56,6 +56,34 @@ func loginPortal(cmd *cobra.Command, args []string) {
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[3]/td/input").Fill(password)
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[5]/td/input[1]").Submit()
 
+	authType, err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[1]/td").Text()
+	if err == nil && !strings.HasPrefix(authType, "Matrix") {
+		if strings.HasPrefix(authType, "Soft Token") {
+			if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[6]/td/select").Select("Matrix"); err != nil {
+				fmt.Println(err)
+				return
+			}
+			if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[8]/td/input[1]").Submit(); err != nil {
+				fmt.Println(err)
+				return
+			}
+		} else if strings.HasPrefix(authType, "One-Time") {
+			if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[5]/td/select").Select("Matrix"); err != nil {
+				fmt.Println(err)
+				return
+			}
+			if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[7]/td/input[1]").Submit(); err != nil {
+				fmt.Println(err)
+				return
+			}
+		}
+		authType, _ = page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[1]/td").Text()
+		if !strings.HasPrefix(authType, "Matrix") {
+			fmt.Println("Failed to move to Matrix authentication page.")
+			return
+		}
+	}
+
 	key1, err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[5]/th[1]").Text()
 	key2, err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[6]/th[1]").Text()
 	key3, err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[7]/th[1]").Text()
@@ -73,7 +101,10 @@ func loginPortal(cmd *cobra.Command, args []string) {
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[6]/td/input").Fill(value2)
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[7]/td/input").Fill(value3)
 
-	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[9]/td/input[1]").Submit()
+	if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[10]/td/input[1]").Submit(); err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 var loginCmd = &cobra.Command{
