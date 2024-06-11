@@ -48,7 +48,7 @@ func loginPortal(cmd *cobra.Command, args []string) {
 
 	if err := page.Navigate(`https://portal.titech.ac.jp/`); err != nil {
 		fmt.Println("Failed to navigate:", err)
-	        return
+		return
 	}
 
 	page.FindByXPath("/html/body/div/div[1]/div[2]/form[2]/input").Click()
@@ -101,7 +101,7 @@ func loginPortal(cmd *cobra.Command, args []string) {
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[6]/td/input").Fill(value2)
 	page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[7]/td/input").Fill(value3)
 
-	if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[10]/td/input[1]").Submit(); err != nil {
+	if err := page.FindByXPath("/html/body/center[3]/form/table/tbody/tr/td/table/tbody/tr[9]/td/input[1]").Submit(); err != nil {
 		fmt.Println(err)
 		return
 	}
