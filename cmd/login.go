@@ -48,7 +48,7 @@ func loginPortal(cmd *cobra.Command, args []string) {
 
 	if err := page.Navigate(`https://portal.titech.ac.jp/`); err != nil {
 		fmt.Println("Failed to navigate:", err)
-		return
+	        return
 	}
 
 	page.FindByXPath("/html/body/div/div[1]/div[2]/form[2]/input").Click()
